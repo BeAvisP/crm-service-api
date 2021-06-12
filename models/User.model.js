@@ -17,7 +17,7 @@ const userSchema = new Schema(
     firstname: { type: String, required: true },
     lastname: { type: String, required: true },
     password: { type: String },
-    role: { type: String, enum: ['admin', 'user'] },
+    role: { type: String, enum: ['admin', 'user'], default: 'user' },
   },
   {
     timestamps: true,
