@@ -3,13 +3,19 @@ const passport = require('passport');
 const router = express.Router();
 const User = require('../models/User.model');
 const { isLoggedOut, isLoggedIn, isAdmin } = require('../middlewares/auth');
-const uploader = require('../configs/cloudinary.config');
 const bcrypt = require('bcryptjs');
 const bcryptSalt = 10;
 
+// Route to get all users
+router.get('/users', isAdmin, (req, res, next) => {
+  User.find()
+    .then((customers) => res.status(200).json(customers))
+    .catch((err) => res.status(500).json(err));
+});
+
 // Route to create new users only by Admin role
 router.post('/new', isAdmin, (req, res, next) => {
-  const { firstName, lastName, email, password, role } = req.body;
+  const { firstname, lastname, email, password, role } = req.body;
 
   if (password.length < 6) {
     return res.status(400).json({
@@ -17,38 +23,29 @@ router.post('/new', isAdmin, (req, res, next) => {
     });
   }
 
-  if (!email || !firstName || !lastName) {
+  if (!email || !firstname || !lastname) {
     return res
       .status(400)
-      .json({ message: 'Please fill all the filds in the form.' });
+      .json({ message: 'Please fill all the required filds.' });
   }
 
   User.findOne({ email })
     .then((user) => {
       if (user) {
-        return res
-          .status(400)
-          .json({ message: 'User already exists. Please change your email.' });
+        return res.status(400).json({ message: 'User already exists.' });
       }
 
       const salt = bcrypt.genSaltSync(bcryptSalt);
       const hashPass = bcrypt.hashSync(password, salt);
 
       User.create({
-        firstName,
-        lastName,
+        firstname,
+        lastname,
         email,
         password: hashPass,
         role,
       })
-        .then((newUser) => {
-          req.login(newUser, (error) => {
-            if (error) {
-              return res.status(500).json(error);
-            }
-            return res.status(201).json(newUser);
-          });
-        })
+        .then((newUser) => res.status(201).json(newUser))
         .catch((error) => res.status(500).json(error));
     })
     .catch((error) => res.status(500).json(error));
@@ -79,23 +76,12 @@ router.post('/logout', isLoggedIn, (req, res, next) => {
 });
 
 // Route to edit the user info for Admin role
-router.put(
-  '/edit',
-  isAdmin,
-  uploader.single('profilePic'),
-  (req, res, next) => {
-    User.findOneAndUpdate(
-      { _id: req.user.id },
-      {
-        ...req.body,
-        profilePic: req.file ? req.file.path : req.user.profilePic,
-      },
-      { new: true }
-    )
-      .then((user) => res.status(200).json(user))
-      .catch((error) => res.status(500).json(error));
-  }
-);
+router.put('/:id', isAdmin, (req, res, next) => {
+  const { id } = req.params;
+  User.findOneAndUpdate({ _id: id }, { ...req.body }, { new: true })
+    .then((user) => res.status(200).json(user))
+    .catch((error) => res.status(500).json(error));
+});
 
 // Route to get the user info when the user is loggedin
 router.get('/loggedin', (req, res, next) => {
