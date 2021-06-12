@@ -1,4 +1,4 @@
-<h1 align="center">Welcome to crm-service-api 👋</h1>
+<h1 align="center">crm-service-api 👋</h1>
 <p>
   <img alt="Version" src="https://img.shields.io/badge/version-0.0.0-blue.svg?cacheSeconds=2592000" />
   <a href="https://twitter.com/NishyIR" target="_blank">
@@ -6,18 +6,54 @@
   </a>
 </p>
 
+API built with ``NodeJS`` and ``Express`` connected to ``MongoDB`` with ``Mongoose``.
+
+## Download
+
+```sh
+git clone https://github.com/BeAvisP/crm-service-api.git
+
+cd crm-service-api
+```
+
 ## Install
 
 ```sh
 npm install
 ```
+This command will install all the dependencies needed to run de API.
 
-## Usage
+## Initial configuration
+
+In order to start using the API you need to have create an Admin ``user`` in the database.
+
+In the ``bin`` folder you will find the script to create the first ``user`` in `` seeds.js ``.
+
+By default the ``user`` created will be:
+```
+ {
+  email: 'admin@crm-service.com',
+  firstname: 'Admin',
+  lastname: 'User',
+  password: '123456,
+  role: 'admin',
+}
+```
+Feel free to change the data in the ``seeds.js`` file with the values you need.
+
+Execute the next command to create de ``user``:
 
 ```sh
 node bin/seeds.js
+```
+
+## Usage
+
+To run build and run the API:
+```sh
 npm run start
 ```
+The URL of the API will be localhost:3001
 
 ## Endpoints Table
 
