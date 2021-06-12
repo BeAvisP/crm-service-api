@@ -1,4 +1,4 @@
-<h1 align="center">crm-service-api 👋</h1>
+<h1 align="center">crm-service-api by Beatriz Avis</h1>
 <p>
   <img alt="Version" src="https://img.shields.io/badge/version-0.0.0-blue.svg?cacheSeconds=2592000" />
   <a href="https://twitter.com/NishyIR" target="_blank">
@@ -53,7 +53,7 @@ To run build and run the API:
 ```sh
 npm run start
 ```
-The URL of the API will be localhost:3001
+The URL of the API will be ``localhost:3001``
 
 ## Endpoints Table
 
