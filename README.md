@@ -19,17 +19,36 @@ node bin/seeds.js
 npm run start
 ```
 
+## Endpoints Table
+
+| HTTP Method | Endpoint             | Request Body                                   | Success status | Error Status | Description                                       |
+| ----------- | -------------------- | ---------------------------------------------- | -------------- | ------------ | ------------------------------------------------- |
+| GET         | `/api/auth/loggedin` | Saved session                                  | 200            | 500          | Check if user is logged in and return the user    |
+| POST        | `/api/auth/login`    | { email, password }                            | 200            | 401 - 500    | User login - Return the user                      |
+| POST        | `/api/auth/logout`   |                                                | 200            |              | User logout                                       |
+| POST        | `/api/auth/new`      | { firstname, lastname, email, password, role } | 201            | 400 - 500    | Create new user - Only allowed for Admins         |
+| GET         | `/api/auth/users`    |                                                | 200            | 500          | Return all users - Only allowed for Admins        |
+| GET         | `/api/auth/:id`      |                                                | 200            | 500          | Return user info - Only allowed for Admins        |
+| PUT         | `/api/auth/:id`      | { firstname, lastname, role }                  | 200            | 500          | Edit user info and role - Only allowed for Admins |
+| DELETE      | `/api/auth/:id`      |                                                | 200            | 500          | Delete user - Only allowed for Admins             |
+| GET         | `/api/customers`     |                                                | 200            | 500          | Return all customers - Auth is required           |
+| POST        | `/api/customers`     | { name, surname, photo }                       | 201            | 400 - 500    | Create new customer - Auth is required            |
+| GET         | `/api/customers/:id` |                                                | 200            | 500          | Return customer by id - Auth is required          |
+| PUT         | `/api/customers/:id` | { name, surname, photo }                       | 200            | 500          | Edit customer info - Auth is required             |
+| DELETE      | `/api/customers/:id` |                                                | 200            | 500          | Delete customer - Auth is required                |
+
 ## Author
 
 👤 **Beatriz Avis**
 
-* Twitter: [@NishyIR](https://twitter.com/NishyIR)
-* Github: [@BeAvisP](https://github.com/BeAvisP)
-* LinkedIn: [@beatrizavis](https://linkedin.com/in/beatrizavis)
+- Twitter: [@NishyIR](https://twitter.com/NishyIR)
+- Github: [@BeAvisP](https://github.com/BeAvisP)
+- LinkedIn: [@beatrizavis](https://linkedin.com/in/beatrizavis)
 
 ## Show your support
 
 Give a ⭐️ if this project helped you!
 
-***
+---
+
 _This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_
