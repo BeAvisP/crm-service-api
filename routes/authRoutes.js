@@ -9,7 +9,16 @@ const bcryptSalt = 10;
 // Route to get all users only accesible for Admin role
 router.get('/users', isAdmin, (req, res, next) => {
   User.find()
-    .then((customers) => res.status(200).json(customers))
+    .then((users) => res.status(200).json(users))
+    .catch((err) => res.status(500).json(err));
+});
+
+// Route to get a user by ID
+router.get('/:id', isLoggedIn, (req, res, next) => {
+  const { id } = req.params;
+
+  User.findOne({ _id: id })
+    .then((user) => res.status(200).json(user))
     .catch((err) => res.status(500).json(err));
 });
 
@@ -93,8 +102,9 @@ router.get('/loggedin', (req, res, next) => {
 });
 
 // Route to delete a user only accesible for Admin role
-router.delete('/delete', isAdmin, (req, res, next) => {
-  User.findByIdAndRemove(req.user.id)
+router.delete('/:id', isAdmin, (req, res, next) => {
+  const { id } = req.params;
+  User.findByIdAndRemove(id)
     .then(() => res.status(200).json({ message: 'User removed' }))
     .catch((error) => res.status(500).json(error));
 });
