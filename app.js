@@ -1,6 +1,6 @@
 require('dotenv').config();
 const express = require('express');
-const path = require('path');
+const mongoSanitize = require('express-mongo-sanitize');
 
 //DB Configuration
 require('./configs/db.config');
@@ -12,6 +12,9 @@ require('./configs/middleware.config')(app);
 require('./configs/cors.config')(app);
 require('./configs/session.config')(app);
 require('./configs/passport.config')(app);
+
+// Initialize sanitize
+app.use(mongoSanitize());
 
 // Routes
 const authRoutes = require('./routes/authRoutes');
