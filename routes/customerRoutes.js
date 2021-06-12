@@ -31,26 +31,27 @@ router.post('/', isLoggedIn, (req, res, next) => {
 });
 
 // Route to edit the customer info for logged users
-router.put(
-  '/:id',
-  isLoggedIn,
-  uploader.single('profilePic'),
-  (req, res, next) => {
-    const { id } = req.params;
-    // TODO find current customer img before update
-    Customer.findOneAndUpdate(
-      { _id: id },
-      {
-        ...req.body,
-        photo: req.file ? req.file.path : null,
-        lastModifiedBy: req.user.id,
-      },
-      { new: true }
-    )
-      .then((customer) => res.status(200).json(customer))
-      .catch((error) => res.status(500).json(error));
-  }
-);
+router.put('/:id', isLoggedIn, uploader.single('photo'), (req, res, next) => {
+  const { id } = req.params;
+
+  Customer.findById(id)
+    .then((customer) => {
+      const currentPhoto = customer.photo;
+
+      Customer.findOneAndUpdate(
+        { _id: id },
+        {
+          ...req.body,
+          photo: req.file ? req.file.path : currentPhoto,
+          lastModifiedBy: req.user.id,
+        },
+        { new: true }
+      )
+        .then((customer) => res.status(200).json(customer))
+        .catch((error) => res.status(500).json(error));
+    })
+    .catch((error) => res.status(500).json(error));
+});
 
 // Route to delete a customer
 router.delete('/:id', isLoggedIn, (req, res, next) => {
