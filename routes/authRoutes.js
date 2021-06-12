@@ -6,7 +6,7 @@ const { isLoggedOut, isLoggedIn, isAdmin } = require('../middlewares/auth');
 const bcrypt = require('bcryptjs');
 const bcryptSalt = 10;
 
-// Route to get all users
+// Route to get all users only accesible for Admin role
 router.get('/users', isAdmin, (req, res, next) => {
   User.find()
     .then((customers) => res.status(200).json(customers))
@@ -75,7 +75,7 @@ router.post('/logout', isLoggedIn, (req, res, next) => {
   return res.status(200).json({ message: 'Log out success!' });
 });
 
-// Route to edit the user info for Admin role
+// Route to edit the user info and change role only accesible for Admin role
 router.put('/:id', isAdmin, (req, res, next) => {
   const { id } = req.params;
   User.findOneAndUpdate({ _id: id }, { ...req.body }, { new: true })
