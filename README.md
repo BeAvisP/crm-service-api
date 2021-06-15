@@ -55,6 +55,8 @@ npm run start
 ```
 The URL of the API will be ``localhost:3001``
 
+- Postman collection:  [crm-service-api](https://documenter.getpostman.com/view/15478704/TzeTJpNp#ff0a0786-90fd-4167-85e9-2d3785681f57)
+
 ## Endpoints Table
 
 | HTTP Method | Endpoint             | Request Body                                   | Success status | Error Status | Description                                       |
